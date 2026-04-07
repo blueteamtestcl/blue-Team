@@ -390,11 +390,16 @@ ${crit > 0 ? 'ADVERTENCIA: Se detectaron vulnerabilidades críticas que requiere
       doc.setTextColor(...COLORS.accent);
       doc.text('Guía de Remediación (AI Security Core):', margin, y);
       y += 6;
-      doc.setFont('courier', 'normal');
+      doc.setFont('helvetica', 'normal');
       doc.setFontSize(8);
       doc.setTextColor(30, 30, 30);
       
-      const cleanedMD = alert.aiRemediation.replace(/\*\*/g, '').replace(/###/g, '');
+      const cleanedMD = alert.aiRemediation
+        .replace(/[^\x20-\x7E\xA0-\xFF\u0100-\u017F\n\r]/g, '') // Elimina emojis y caracteres que rompen jsPDF
+        .replace(/\*\*/g, '')
+        .replace(/###/g, '')
+        .replace(/`/g, '');
+        
       const aiLines = doc.splitTextToSize(cleanedMD, contentW);
       
       aiLines.forEach((line: string) => {
