@@ -66,7 +66,7 @@ function sevColor(severity: string): [number, number, number] {
   return map[severity] || COLORS.gray;
 }
 
-export function generatePDFReport(data: ReportData): void {
+export function generateTechnicalReport(data: ReportData): void {
   const doc = new jsPDF('p', 'mm', 'a4');
   const pageW = 210;
   const margin = 20;
