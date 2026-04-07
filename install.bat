@@ -1,45 +1,41 @@
 @echo off
+title Blue Team Defense Center - Instalador
+color 0A
+cd /d "%~dp0"
 echo =======================================================
-echo BLUE TEAM DEFENSE CENTER - SETUP SCRIPT
+echo  BLUE TEAM DEFENSE CENTER - SETUP SCRIPT
 echo =======================================================
-
 echo.
-echo Verificando dependencias del sistema...
-
+echo Directorio: %cd%
+echo.
 where node >nul 2>nul
 if %ERRORLEVEL% neq 0 (
-    echo [ERROR] Node.js no esta instalado.
-    echo Por favor descarga e instala Node.js (v18 o superior) desde https://nodejs.org/
-    echo Luego, vuelve a ejecutar este script.
+    color 0C
+    echo [ERROR] Node.js no detectado. Instala Node.js v18+ desde https://nodejs.org/
     pause
     exit /b
 )
-
 echo [OK] Node.js detectado.
-
 echo.
-echo Instalando dependencias del Motor Principal (Dashboard)...
-cd dashboard
+echo Instalando dependencias del Dashboard...
+cd /d "%~dp0dashboard"
 call npm install
-cd ..
-
+cd /d "%~dp0"
 echo.
-echo Instalando dependencias de la Agencia Simulada (Pagina de Prueba)...
-cd pagina_de_prueba
+echo Instalando dependencias de la Pagina de Prueba...
+cd /d "%~dp0pagina_de_prueba"
 call npm install
-cd ..
-
+cd /d "%~dp0"
 echo.
-echo Creando archivo de variables de entorno si no existe...
 if not exist "dashboard\.env.local" (
     echo GROQ_API_KEY=tu_clave_aqui > "dashboard\.env.local"
-    echo [OK] Plantilla .env.local creada en carpeta dashboard.
+    echo [OK] Plantilla .env.local creada.
+) else (
+    echo [OK] .env.local ya existe.
 )
-
 echo.
 echo =======================================================
-echo Instalacion completada con exito.
-echo Recuerda reemplazar "tu_clave_aqui" en dashboard/.env.local con tu API Key real de Groq.
-echo Puedes iniciar el sistema ejecutando "start_all.bat".
+echo  INSTALACION COMPLETADA
+echo  Ejecuta start_all.bat para iniciar.
 echo =======================================================
 pause
