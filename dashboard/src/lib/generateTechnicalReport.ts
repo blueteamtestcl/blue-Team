@@ -16,8 +16,6 @@ interface Alert {
   aiRemediation?: string;
 }
 
-export interface ReportData {
-
 interface AuditLog {
   action: string;
   timestamp: string;
