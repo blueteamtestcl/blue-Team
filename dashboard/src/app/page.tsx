@@ -614,10 +614,15 @@ export default function Dashboard() {
               {activeTab === 'intelligence' && (
                 <>
                   {!selectedAlert ? (
-                    <div className="flex flex-col items-center justify-center h-[500px] text-slate-500">
+                    <div className="flex flex-col items-center justify-center h-[500px] text-slate-500 p-6">
                       <AlertTriangle className="w-12 h-12 mb-4 opacity-30" />
                       <p className="italic text-center">Seleccione una vulnerabilidad para solicitar el análisis IA.</p>
-                      <p className="text-xs text-slate-600 mt-2">Motor: Groq LLaMA 3.3 70B</p>
+                      <p className="text-xs text-slate-600 mt-2 mb-6">Motor: Groq LLaMA 3.3 70B</p>
+                      <div className="max-w-md bg-amber-950/20 border border-amber-900/40 rounded-lg p-4 text-center">
+                        <p className="text-[10px] text-amber-500/80 leading-relaxed">
+                          <strong>⚠️ AVISO DE SUPERVISIÓN:</strong> La Inteligencia Artificial es un Asistente diseñado para mitigar el <em>burnout</em> y estrés del Blue Team mediante sugerencias en tiempo récord. Sus códigos de remediación <strong>siempre deben ser supervisados y validados por un ingeniero humano</strong> antes de ejecutar el parcheo en producción.
+                        </p>
+                      </div>
                     </div>
                   ) : (
                     <div>

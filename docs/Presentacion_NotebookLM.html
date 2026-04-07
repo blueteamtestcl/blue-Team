@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guía de Disertación: Blue Team Defense Center</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            background-color: #f9f9f9;
+        }
+        .container {
+            background-color: #fff;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #1e3a8a;
+            border-bottom: 2px solid #1e3a8a;
+            padding-bottom: 10px;
+            margin-bottom: 30px;
+        }
+        h2 {
+            color: #2563eb;
+            margin-top: 40px;
+            border-bottom: 1px solid #e5e7eb;
+            padding-bottom: 5px;
+        }
+        h3 {
+            color: #0f172a;
+            margin-top: 20px;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 20px auto;
+            border-radius: 6px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            border: 1px solid #e5e7eb;
+        }
+        .caption {
+            text-align: center;
+            font-style: italic;
+            color: #6b7280;
+            font-size: 0.9em;
+            margin-bottom: 30px;
+        }
+        .highlight {
+            background-color: #eff6ff;
+            padding: 15px;
+            border-left: 4px solid #3b82f6;
+            margin: 20px 0;
+            border-radius: 0 4px 4px 0;
+        }
+        ul {
+            margin-bottom: 20px;
+        }
+        li {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Guía de Disertación: Blue Team Defense Center</h1>
+        <div class="highlight">
+            <p><strong>Audiencia:</strong> Profesor evaluador y compañeros de clase de Ciberseguridad.<br>
+            <strong>Integrantes del grupo:</strong> 4 Estudiantes.<br>
+            <strong>Duración Objetivo:</strong> 10 a 15 Minutos.<br>
+            <strong>Tema Asignado:</strong> Blue Team (Defensa).</p>
+        </div>
+
+        <h2>👨‍💻 ESTUDIANTE 1: Concepto y Objetivo (Diapositiva 1 y 2)</h2>
+        <h3>1. 🧠 ¿Qué es nuestro equipo? (Blue Team)</h3>
+        <p>Nosotros representamos al <strong>Blue Team</strong> (Equipo Azul). En ciberseguridad, somos el equipo de seguridad defensiva interna de la organización. A diferencia del Red Team que se encarga de atacar para buscar vulnerabilidades, nuestra mentalidad es actuar como el escudo protector corporativo de la infraestructura tecnológica.</p>
+
+        <h3>¿Cuál es el objetivo principal?</h3>
+        <p>Nuestro objetivo fundamental es proteger y garantizar la <strong>Confidencialidad, Integridad y Disponibilidad</strong> (La Tríada de la Seguridad) de los activos de la empresa. Lo hacemos identificando fallas en las aplicaciones, monitorizando redes en tiempo real y desarrollando parches ('hardening') para evitar que un atacante logre extraer datos.</p>
+
+        <img src="../screenshots_presentacion/12_dashboard_completo_simulacion.png" alt="Panel General Blue Team">
+        <p class="caption">Figura 1: Vista general de nuestro panel de control defensivo.</p>
+
+        <h2>👩‍💻 ESTUDIANTE 2: Funciones y Herramientas (Diapositiva 3 y 4)</h2>
+        <h3>2. ⚙️ Funciones Principales y Etapas de Trabajo</h3>
+        <p>¿En qué etapa trabajamos? Prácticamente en las 3 etapas críticas:</p>
+        <ul>
+            <li><strong>Prevención:</strong> Configuramos Firewalls y políticas de red antes de que ocurra un ataque.</li>
+            <li><strong>Detección:</strong> Estamos constantemente monitorizando alertas de tráfico anómalo.</li>
+            <li><strong>Respuesta:</strong> Cuando detectamos una inyección de código, aplicamos planes de contingencia (playbooks) para expulsar al intruso y tapar el agujero inmediatamente.</li>
+        </ul>
+
+        <h3>3. 🛠️ Herramientas Reales Utilizadas</h3>
+        <p>Como exige el estándar de la industria, el Blue Team se apoya en 3 herramientas fundamentales (las cuales integramos conceptualmente en nuestro proyecto):</p>
+        <ul>
+            <li><strong>SIEM (Ej: Splunk / Elastic Security):</strong> Herramienta vital de detección. Recopila millones de registros (logs) de toda la empresa y los correlaciona para dispararnos alertas en el Dashboard cuando alguien intenta algo raro.</li>
+            <li><strong>Mozilla Observatory:</strong> Nos sirve en la etapa de Prevención. Audita empíricamente nuestro sitio web para ver si el candado HTTPS y las políticas de seguridad (HSTS, CSP) están firmes contra ataques como el Man-In-The-Middle.</li>
+            <li><strong>Escáneres y Crawlers (Ej: OWASP ZAP / Nessus):</strong> Herramienta que mapea toda nuestra red buscando puertas traseras dejadas por error o configuraciones por defecto peligrosas.</li>
+        </ul>
+
+        <img src="../screenshots_presentacion/19_tupagina_observatory_nota_C.png" alt="Herramienta Mozilla Observatory">
+        <p class="caption">Figura 2: Análisis mediante la herramienta real Mozilla Observatory integrada en nuestro sistema.</p>
+
+        <h2>👨‍💻 ESTUDIANTE 3: El Ejemplo Práctico (Diapositiva 5 y 6)</h2>
+        <h3>4. 🔍 Ejemplo Práctico: Caso de Inyección SQL</h3>
+        <p>Vamos a simular un caso real con el software que hemos construido. Supongamos que un atacante del Red Team (o un hacker real) intentó acceder al panel de nuestra empresa ficticia buscando una brecha.</p>
+
+        <ul>
+            <li><strong>Paso 1 (Detección):</strong> Nuestro Splunk/SIEM lanza una alerta en nuestro Panel ("SQL Injection en Formulario de Login"). Un ciberdelincuente inyectó el código malicioso <code>admin' OR '1'='1'</code>.</li>
+            <li><strong>Paso 2 (Análisis):</strong> En vez de entrar en pánico, nuestro analista de Blue Team da clic en la alerta. Se despliega una inmensa consola detallando que el atacante intentó evadir la autenticación.</li>
+        </ul>
+
+        <img src="../screenshots_presentacion/05_resultados_escaneo_simulacion.png" alt="Detección de Vulnerabilidades">
+        <p class="caption">Figura 3: Alertas rojas Críticas detectadas en el sistema de defensa.</p>
+
+        <ul>
+            <li><strong>Paso 3 (Respuesta y Remediación Inteligente):</strong> Aquí usamos tecnología de punta. Para responder en tiempo récord, enviamos esta telemetría a una Inteligencia Artificial (LLaMA 3.3, actuando como nuestro Asistente SOAR de respuesta automatizada). La IA nos devuelve exactamente el parche que el desarrollador debe copiar en el servidor (Consultas parametrizadas) para detener completamente el ataque en menos de 2 minutos.</li>
+        </ul>
+
+        <img src="../screenshots_presentacion/06_analisis_ia_remediacion.png" alt="Asistencia IA Remediación">
+        <p class="caption">Figura 4: Consola de remediación, donde neutralizamos el ataque usando código defensivo programado por IA.</p>
+
+        <h2>👩‍💻 ESTUDIANTE 4: Relación entre Equipos y Cierre (Diapositiva 7)</h2>
+        <h3>5. 🔄 Interacción con los otros Equipos</h3>
+        <p>Para terminar, es vital entender que el Blue Team no puede existir de forma aislada. Si solo defendemos a ciegas, nos estancaremos en el tiempo.</p>
+
+        <ul>
+            <li><strong>Relación con Red Team:</strong> De ellos aprendemos los "TTPs" (Tácticas, Técnicas y Procedimientos). Cuando el Red Team nos 'hackea' exitosamente en un simulacro, nosotros estudiamos exactamente los pasos que ellos hicieron para configurar nuestros Firewalls (WAF) y que nunca más vuelva a suceder.</li>
+            <li><strong>Aparición del Purple Team:</strong> Esta relación tan estrecha fomenta lo que llamamos el modelo Purple Team. Un trabajo colaborativo continuo donde no hay rivalidad. El atacante avisa qué va a intentar y el defensor mejora sus herramientas defensivas en tiempo real.</li>
+        </ul>
+
+        <h3>Conclusión</h3>
+        <p>El trabajo colaborativo garantiza que los parches no se apliquen de forma "reactiva" cuando ya nos robaron los datos, sino de forma "proactiva". La ciberseguridad defensiva no es un departamento solitario, es una cultura de mejora continua. Muchas gracias.</p>
+    </div>
+</body>
+</html>

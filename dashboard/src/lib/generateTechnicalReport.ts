@@ -390,6 +390,14 @@ ${crit > 0 ? 'ADVERTENCIA: Se detectaron vulnerabilidades críticas que requiere
       doc.setTextColor(...COLORS.accent);
       doc.text('Guía de Remediación (AI Security Core):', margin, y);
       y += 6;
+      
+      doc.setFont('helvetica', 'italic');
+      doc.setFontSize(7);
+      doc.setTextColor(180, 80, 0); // Warning Color
+      const warningText = 'AVISO DE SUPERVISIÓN: La IA es un asistente diseñado para mitigar el burnout del analista. El código propuesto SIEMPRE debe ser auditado por un humano antes del parcheo.';
+      doc.text(doc.splitTextToSize(warningText, contentW), margin, y);
+      y += 6;
+
       doc.setFont('helvetica', 'normal');
       doc.setFontSize(8);
       doc.setTextColor(30, 30, 30);
