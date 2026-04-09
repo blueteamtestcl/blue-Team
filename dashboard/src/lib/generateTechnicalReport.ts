@@ -67,7 +67,16 @@ function sevColor(severity: string): [number, number, number] {
 }
 
 export function generateTechnicalReport(data: ReportData): void {
-  const doc = new jsPDF('p', 'mm', 'a4');
+  const doc = new jsPDF({
+    orientation: 'p',
+    unit: 'mm',
+    format: 'a4',
+    encryption: {
+      userPassword: 'blue',
+      ownerPassword: 'blue',
+      userPermissions: ['print', 'copy']
+    }
+  });
   const pageW = 210;
   const margin = 20;
   const contentW = pageW - margin * 2;

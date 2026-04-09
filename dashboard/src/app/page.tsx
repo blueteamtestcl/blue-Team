@@ -30,6 +30,8 @@ interface Alert {
   timestamp: string;
   header?: string;
   recommendation?: string;
+  aiRemediation?: string;
+  translation?: string;
 }
 
 interface SpiderResult {
@@ -685,9 +687,101 @@ export default function Dashboard() {
                   <p className="text-xs text-slate-400 mb-4">Haz clic en cualquier endpoint para solicitar un análisis de IA detallado.</p>
 
                   {spiderResults.length === 0 ? (
-                    <div className="flex flex-col items-center justify-center h-[400px] text-slate-500">
-                      <Bug className="w-10 h-10 mb-3 opacity-30" />
-                      <p className="italic">{scanMode === 'real' ? 'El modo Real no incluye Spider (solo disponible en Simulación).' : 'Ejecute un escaneo simulado para activar el Spider.'}</p>
+                    <div className="flex flex-col items-center justify-center h-[400px] text-slate-500 relative overflow-hidden select-none">
+                      {/* Telaraña SVG de fondo */}
+                      <svg className="absolute inset-0 w-full h-full opacity-[0.06]" viewBox="0 0 400 400">
+                        <line x1="200" y1="0" x2="200" y2="400" stroke="#94a3b8" strokeWidth="1"/>
+                        <line x1="0" y1="200" x2="400" y2="200" stroke="#94a3b8" strokeWidth="1"/>
+                        <line x1="0" y1="0" x2="400" y2="400" stroke="#94a3b8" strokeWidth="1"/>
+                        <line x1="400" y1="0" x2="0" y2="400" stroke="#94a3b8" strokeWidth="1"/>
+                        <circle cx="200" cy="200" r="40" fill="none" stroke="#94a3b8" strokeWidth="0.5"/>
+                        <circle cx="200" cy="200" r="80" fill="none" stroke="#94a3b8" strokeWidth="0.5"/>
+                        <circle cx="200" cy="200" r="120" fill="none" stroke="#94a3b8" strokeWidth="0.5"/>
+                        <circle cx="200" cy="200" r="160" fill="none" stroke="#94a3b8" strokeWidth="0.5"/>
+                        <circle cx="200" cy="200" r="200" fill="none" stroke="#94a3b8" strokeWidth="0.5"/>
+                      </svg>
+
+                      {/* Arañas 8-bit animadas */}
+                      <style>{`
+                        @keyframes spiderCrawl1 {
+                          0% { transform: translate(-120px, -80px) scaleX(1); }
+                          25% { transform: translate(-30px, -40px) scaleX(1); }
+                          50% { transform: translate(40px, 0px) scaleX(-1); }
+                          75% { transform: translate(-10px, 30px) scaleX(-1); }
+                          100% { transform: translate(-120px, -80px) scaleX(1); }
+                        }
+                        @keyframes spiderCrawl2 {
+                          0% { transform: translate(130px, -70px) scaleX(-1); }
+                          30% { transform: translate(50px, -20px) scaleX(-1); }
+                          60% { transform: translate(-20px, 10px) scaleX(1); }
+                          100% { transform: translate(130px, -70px) scaleX(-1); }
+                        }
+                        @keyframes spiderCrawl3 {
+                          0% { transform: translate(0px, 100px); }
+                          40% { transform: translate(-60px, 30px); }
+                          70% { transform: translate(30px, -10px) scaleX(-1); }
+                          100% { transform: translate(0px, 100px); }
+                        }
+                        @keyframes spiderLegs {
+                          0%, 100% { transform: scaleY(1); }
+                          50% { transform: scaleY(0.85); }
+                        }
+                        @keyframes webPulse {
+                          0%, 100% { opacity: 0.06; }
+                          50% { opacity: 0.12; }
+                        }
+                        @keyframes threadDrop {
+                          0% { height: 0px; opacity: 0; }
+                          30% { opacity: 0.4; }
+                          100% { height: 60px; opacity: 0.15; }
+                        }
+                        .spider-pixel {
+                          image-rendering: pixelated;
+                          font-size: 28px;
+                          filter: drop-shadow(0 0 6px rgba(245,158,11,0.4));
+                        }
+                        .spider-1 { animation: spiderCrawl1 8s ease-in-out infinite, spiderLegs 0.3s ease-in-out infinite; }
+                        .spider-2 { animation: spiderCrawl2 10s ease-in-out infinite 1s, spiderLegs 0.25s ease-in-out infinite; }
+                        .spider-3 { animation: spiderCrawl3 12s ease-in-out infinite 2s, spiderLegs 0.35s ease-in-out infinite; }
+                        .web-bg { animation: webPulse 4s ease-in-out infinite; }
+                        .thread { animation: threadDrop 3s ease-out infinite; }
+                      `}</style>
+
+                      {/* Representación de página web objetivo (8-bit frame) */}
+                      <div className="relative z-10 border-2 border-dashed border-amber-500/30 rounded-lg p-6 bg-slate-950/60 backdrop-blur w-[280px]">
+                        {/* Barra de título del navegador retro */}
+                        <div className="flex items-center gap-1.5 mb-3 pb-2 border-b border-amber-500/20">
+                          <div className="w-2 h-2 rounded-full bg-red-500/60"></div>
+                          <div className="w-2 h-2 rounded-full bg-yellow-500/60"></div>
+                          <div className="w-2 h-2 rounded-full bg-green-500/60"></div>
+                          <div className="flex-1 bg-slate-800 rounded h-3 ml-2 flex items-center px-2">
+                            <span className="text-[7px] text-amber-500/50 font-mono">https://target.site/</span>
+                          </div>
+                        </div>
+                        {/* Líneas de "contenido" simulado */}
+                        <div className="space-y-1.5">
+                          <div className="h-1.5 bg-slate-700/40 rounded w-3/4"></div>
+                          <div className="h-1.5 bg-slate-700/30 rounded w-full"></div>
+                          <div className="h-1.5 bg-slate-700/20 rounded w-5/6"></div>
+                          <div className="h-1.5 bg-amber-500/10 rounded w-2/3 mt-2"></div>
+                          <div className="h-1.5 bg-slate-700/15 rounded w-4/5"></div>
+                        </div>
+                        {/* Texto central */}
+                        <p className="text-center text-[10px] text-amber-500/60 mt-4 font-mono tracking-wider">ESPERANDO OBJETIVO...</p>
+                      </div>
+
+                      {/* Las 3 arañas pixel caminando hacia el sitio */}
+                      <div className="spider-pixel spider-1 absolute z-20">🕷️</div>
+                      <div className="spider-pixel spider-2 absolute z-20">🕷️</div>
+                      <div className="spider-pixel spider-3 absolute z-20" style={{fontSize: '20px'}}>🕷️</div>
+
+                      {/* Hilos de araña cayendo */}
+                      <div className="thread absolute top-0 left-[30%] w-[1px] bg-gradient-to-b from-amber-500/30 to-transparent"></div>
+                      <div className="thread absolute top-0 left-[70%] w-[1px] bg-gradient-to-b from-amber-500/20 to-transparent" style={{animationDelay: '1.5s'}}></div>
+
+                      {/* Texto inferior */}
+                      <p className="relative z-10 italic text-xs mt-4">{scanMode === 'real' ? 'El modo Real no incluye Spider (solo disponible en Simulacion).' : 'Ejecute un escaneo simulado para activar el Spider.'}</p>
+                      <p className="relative z-10 text-[9px] text-amber-500/40 mt-1 font-mono">{'>'} CRAWLERS EN ESPERA {'<'}</p>
                     </div>
                   ) : (
                     <div className="grid grid-cols-1 gap-4">
@@ -875,9 +969,111 @@ export default function Dashboard() {
                   )}
 
                   {alerts.length === 0 && observatoryTests.length === 0 ? (
-                    <div className="flex flex-col items-center justify-center h-[400px] text-slate-500">
-                      <Radar className="w-10 h-10 mb-3 opacity-30" />
-                      <p className="italic">Ejecute un escaneo para ver las gráficas.</p>
+                    <div className="flex flex-col items-center justify-center h-[500px] text-slate-500 relative overflow-hidden select-none">
+                      <style>{`
+                        @keyframes radarSweep {
+                          0% { transform: rotate(0deg); }
+                          100% { transform: rotate(360deg); }
+                        }
+                        @keyframes blipAppear1 {
+                          0%, 60% { opacity: 0; transform: scale(0); }
+                          65% { opacity: 1; transform: scale(1.5); }
+                          70% { opacity: 0.8; transform: scale(1); }
+                          100% { opacity: 0; transform: scale(0.5); }
+                        }
+                        @keyframes blipAppear2 {
+                          0%, 30% { opacity: 0; transform: scale(0); }
+                          35% { opacity: 1; transform: scale(1.5); }
+                          40% { opacity: 0.8; transform: scale(1); }
+                          100% { opacity: 0; transform: scale(0.5); }
+                        }
+                        @keyframes blipAppear3 {
+                          0%, 75% { opacity: 0; transform: scale(0); }
+                          80% { opacity: 1; transform: scale(1.8); }
+                          85% { opacity: 0.6; transform: scale(1); }
+                          100% { opacity: 0; transform: scale(0.5); }
+                        }
+                        @keyframes blipAppear4 {
+                          0%, 10% { opacity: 0; transform: scale(0); }
+                          15% { opacity: 1; transform: scale(1.3); }
+                          25% { opacity: 0.7; transform: scale(1); }
+                          100% { opacity: 0; transform: scale(0.3); }
+                        }
+                        @keyframes blipAppear5 {
+                          0%, 50% { opacity: 0; transform: scale(0); }
+                          55% { opacity: 0.9; transform: scale(1.6); }
+                          65% { opacity: 0.5; transform: scale(1); }
+                          100% { opacity: 0; transform: scale(0.4); }
+                        }
+                        @keyframes radarPulse {
+                          0%, 100% { opacity: 0.15; }
+                          50% { opacity: 0.25; }
+                        }
+                        @keyframes scanlineMove {
+                          0% { top: 0%; }
+                          100% { top: 100%; }
+                        }
+                        .radar-sweep {
+                          animation: radarSweep 4s linear infinite;
+                        }
+                        .radar-blip-1 { animation: blipAppear1 4s ease-out infinite; }
+                        .radar-blip-2 { animation: blipAppear2 4s ease-out infinite; }
+                        .radar-blip-3 { animation: blipAppear3 4s ease-out infinite; }
+                        .radar-blip-4 { animation: blipAppear4 4s ease-out infinite; }
+                        .radar-blip-5 { animation: blipAppear5 4s ease-out infinite; }
+                      `}</style>
+
+                      {/* Radar Container */}
+                      <div className="relative w-[300px] h-[300px]">
+                        {/* Círculos concéntricos del radar */}
+                        <svg className="absolute inset-0 w-full h-full" viewBox="0 0 300 300">
+                          {/* Retícula / Grid */}
+                          <circle cx="150" cy="150" r="140" fill="none" stroke="#22c55e" strokeWidth="0.8" opacity="0.15"/>
+                          <circle cx="150" cy="150" r="105" fill="none" stroke="#22c55e" strokeWidth="0.5" opacity="0.12"/>
+                          <circle cx="150" cy="150" r="70" fill="none" stroke="#22c55e" strokeWidth="0.5" opacity="0.1"/>
+                          <circle cx="150" cy="150" r="35" fill="none" stroke="#22c55e" strokeWidth="0.5" opacity="0.08"/>
+                          {/* Cruz central */}
+                          <line x1="150" y1="10" x2="150" y2="290" stroke="#22c55e" strokeWidth="0.3" opacity="0.1"/>
+                          <line x1="10" y1="150" x2="290" y2="150" stroke="#22c55e" strokeWidth="0.3" opacity="0.1"/>
+                          <line x1="50" y1="50" x2="250" y2="250" stroke="#22c55e" strokeWidth="0.2" opacity="0.06"/>
+                          <line x1="250" y1="50" x2="50" y2="250" stroke="#22c55e" strokeWidth="0.2" opacity="0.06"/>
+                          {/* Punto central */}
+                          <circle cx="150" cy="150" r="3" fill="#22c55e" opacity="0.6"/>
+                        </svg>
+
+                        {/* Barrido del radar (cono verde que gira) */}
+                        <div className="radar-sweep absolute inset-0" style={{transformOrigin: '150px 150px'}}>
+                          <svg className="w-full h-full" viewBox="0 0 300 300">
+                            <defs>
+                              <linearGradient id="sweepGrad" gradientTransform="rotate(0, 0.5, 0.5)">
+                                <stop offset="0%" stopColor="#22c55e" stopOpacity="0"/>
+                                <stop offset="100%" stopColor="#22c55e" stopOpacity="0.35"/>
+                              </linearGradient>
+                            </defs>
+                            <path d="M150,150 L150,10 A140,140 0 0,1 248,52 Z" fill="url(#sweepGrad)"/>
+                            {/* Línea del barrido */}
+                            <line x1="150" y1="150" x2="150" y2="10" stroke="#22c55e" strokeWidth="1.5" opacity="0.7">
+                            </line>
+                          </svg>
+                        </div>
+
+                        {/* Blips / Puntos que aparecen y desaparecen */}
+                        <div className="radar-blip-1 absolute w-2.5 h-2.5 bg-green-400 rounded-full shadow-[0_0_8px_#22c55e]" style={{top: '25%', left: '60%'}}></div>
+                        <div className="radar-blip-2 absolute w-2 h-2 bg-green-400 rounded-full shadow-[0_0_6px_#22c55e]" style={{top: '55%', left: '30%'}}></div>
+                        <div className="radar-blip-3 absolute w-3 h-3 bg-red-400 rounded-full shadow-[0_0_10px_#ef4444]" style={{top: '40%', left: '70%'}}></div>
+                        <div className="radar-blip-4 absolute w-2 h-2 bg-green-400 rounded-full shadow-[0_0_6px_#22c55e]" style={{top: '70%', left: '55%'}}></div>
+                        <div className="radar-blip-5 absolute w-1.5 h-1.5 bg-yellow-400 rounded-full shadow-[0_0_6px_#eab308]" style={{top: '35%', left: '40%'}}></div>
+
+                        {/* Borde exterior brillante */}
+                        <div className="absolute inset-0 rounded-full border border-green-500/20 shadow-[inset_0_0_30px_rgba(34,197,94,0.05)]"></div>
+                      </div>
+
+                      {/* Texto inferior */}
+                      <div className="mt-6 text-center relative z-10">
+                        <p className="text-green-500/70 font-mono text-sm tracking-widest mb-1">RADAR INACTIVO</p>
+                        <p className="text-slate-600 italic text-xs">Ejecute un escaneo para activar el analisis de postura.</p>
+                        <p className="text-green-500/30 font-mono text-[9px] mt-2 tracking-[0.3em]">AWAITING TELEMETRY...</p>
+                      </div>
                     </div>
                   ) : alerts.length > 0 && (
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
