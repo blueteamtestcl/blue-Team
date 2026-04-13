@@ -41,8 +41,8 @@ Detalla el impacto técnico y humano: qué datos quedan expuestos, cómo afecta 
 
 ## 🛡️ Código de Remediación (Parche del Blue Team)
 Proporciona el fragmento de código EXACTO y listo para copiar-pegar que el analista debe aplicar para cerrar esta vulnerabilidad. Incluye soluciones para:
-- **Next.js / Node.js** (código del servidor)
-- **Nginx** (si aplica, configuración del servidor web)
+- **Next.js / Node.js** (código de la aplicación)
+- **Nginx / Servidores Base** (si aplica. MUY IMPORTANTE: Agrega una nota aclarando explícitamente que los parches de infraestructura como Nginx/Apache SOLO se aplican si la arquitectura usa un servidor dedicado, local o VPS pequeño. Aclara que si la app usa servicios cloud gestionados o CDN como Cloudflare, Vercel o AWS, estas protecciones suelen venir preconfiguradas o se gestionan desde los paneles web protectores, no en archivos .conf).
 Cada bloque de código debe estar en un bloque de código con el lenguaje especificado.
 
 ## 📋 Verificación Post-Parche
@@ -54,7 +54,7 @@ No saludes ni introduzcas. Ve directo al contenido técnico con formato corporat
       messages: [
         {
           role: 'system',
-          content: 'Eres un arquitecto senior de ciberseguridad del Blue Team. Respondes exclusivamente en español formal. Tu prioridad es proteger la organización alineándote SIEMPRE con los estándares más recientes de OWASP Top 10 (2021 o superior) y CWE. Cada respuesta debe ser accionable, estar basada en las últimas normativas de seguridad, e incluir código real de remediación moderno.'
+          content: 'Eres un arquitecto senior de ciberseguridad del Blue Team. Respondes exclusivamente en español formal. Tu prioridad es proteger la organización alineándote SIEMPRE con los estándares más recientes de OWASP Top 10 (2025 o superior) y CWE. Cada respuesta debe ser accionable, estar basada en las últimas normativas de seguridad, e incluir código real de remediación moderno.'
         },
         { role: 'user', content: prompt }
       ],

@@ -4,10 +4,12 @@ import { useState, useEffect, useCallback, useRef } from 'react';
 import {
   ShieldAlert, ShieldCheck, Activity, Terminal, CheckCircle,
   Search, FileKey, ServerCrash, AlertTriangle, Globe, Zap,
-  Lock, Bug, Radar, ArrowRight, ExternalLink, Crosshair, FileDown
+  Lock, Bug, Radar, ArrowRight, ExternalLink, Crosshair, FileDown,
+  Copy, RefreshCw, Eye, EyeOff
 } from 'lucide-react';
 import { generatePDFReport } from '@/lib/generateReport';
 import { generateTechnicalReport } from '@/lib/generateTechnicalReport';
+import { logoBase64 } from '@/lib/logoBase64';
 import ReactMarkdown from 'react-markdown';
 import {
   PieChart, Pie, Cell, BarChart, Bar, XAxis, YAxis, Tooltip,
@@ -85,7 +87,29 @@ export default function Dashboard() {
   const [observatoryScore, setObservatoryScore] = useState(0);
   const [selectedObsTest, setSelectedObsTest] = useState<{name: string; pass: boolean; result: string; scoreModifier: number; description: string} | null>(null);
 
+  const [clientPdfPassword, setClientPdfPassword] = useState('');
+  const [techPdfPassword, setTechPdfPassword] = useState('');
+  const [showPasswords, setShowPasswords] = useState(false);
+
   const mounted = useRef(false);
+
+  const generateSecureKey = () => {
+    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$*()_+-=';
+    let key = 'BT-';
+    for (let i = 0; i < 8; i++) {
+        key += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+    return key;
+  };
+
+  const regenerateKeys = () => {
+    setClientPdfPassword(generateSecureKey());
+    setTechPdfPassword(generateSecureKey());
+  };
+
+  const copyToClipboard = (text: string) => {
+    navigator.clipboard.writeText(text);
+  };
 
   const addLog = useCallback((action: string, type: AuditLog['type'] = 'info') => {
     setAuditLogs(prev => [{ action, timestamp: new Date().toISOString(), type }, ...prev]);
@@ -94,6 +118,8 @@ export default function Dashboard() {
   useEffect(() => {
     if (!mounted.current) {
       mounted.current = true;
+      setClientPdfPassword(generateSecureKey());
+      setTechPdfPassword(generateSecureKey());
       addLog('Sistema Blue Team Defense Center inicializado.', 'info');
       addLog('Esperando autenticación RoE...', 'info');
     }
@@ -229,7 +255,7 @@ export default function Dashboard() {
       observatoryScore,
       observatoryTests,
       scanMode,
-    });
+    }, clientPdfPassword);
     addLog('[OK] Informe Ejecutivo generado y descargado.', 'info');
   };
 
@@ -279,7 +305,7 @@ export default function Dashboard() {
       observatoryScore,
       observatoryTests,
       scanMode,
-    });
+    }, techPdfPassword);
     
     addLog('[OK] Technical Playbook descargado.', 'info');
     setIsGeneratingTech(false);
@@ -433,11 +459,24 @@ export default function Dashboard() {
           <div className="flex flex-col md:flex-row md:items-center gap-4 relative">
             <div className="absolute left-0 top-0 w-32 h-32 bg-blue-500/10 blur-[80px] rounded-full pointer-events-none"></div>
             <div className="flex items-center gap-3">
-              <ShieldCheck className="w-9 h-9 text-blue-500" />
+              <img src={logoBase64} alt="Blue Team Logo" className="w-10 h-10 object-contain drop-shadow-[0_0_8px_rgba(59,130,246,0.3)]" />
               <div>
                 <h1 className="text-xl font-bold text-white tracking-tight">Blue Team Defense Center</h1>
                 <p className="text-[10px] uppercase tracking-[0.2em] text-blue-500/70 mb-1">Vulnerability Management & Threat Intelligence</p>
-                <p className="text-[10px] text-slate-400 font-mono">Core: <span className="text-blue-400">OWASP Top 10 (2021)</span> | Scan: <span className="text-blue-400">Mozilla Observatory & ZAP Spider</span></p>
+                <p className="text-[10px] text-slate-400 font-mono flex items-center gap-1.5 flex-wrap">
+                  Core: 
+                  <a href="https://owasp.org/www-project-top-ten/" target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:text-blue-300 underline decoration-blue-500/30 underline-offset-2 transition-colors flex items-center gap-1">
+                    OWASP Top 10 (2025) <ExternalLink className="w-2.5 h-2.5" />
+                  </a> 
+                  | Scan: 
+                  <a href="https://observatory.mozilla.org/" target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:text-blue-300 underline decoration-blue-500/30 underline-offset-2 transition-colors flex items-center gap-1">
+                    Mozilla Observatory <ExternalLink className="w-2.5 h-2.5" />
+                  </a> 
+                  & 
+                  <a href="https://www.zaproxy.org/" target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:text-blue-300 underline decoration-blue-500/30 underline-offset-2 transition-colors flex items-center gap-1">
+                    ZAP Spider <ExternalLink className="w-2.5 h-2.5" />
+                  </a>
+                </p>
               </div>
             </div>
           </div>
@@ -456,17 +495,44 @@ export default function Dashboard() {
             )}
             
             {alerts.length > 0 && (
-              <>
+              <div className="flex items-center gap-2 bg-slate-950 border border-slate-700/50 p-1.5 rounded-full shadow-inner">
+                {/* Credentials Vault Widget */}
+                <div className="flex items-center gap-2 px-2 border-r border-slate-800">
+                  <div className="flex flex-col justify-center">
+                    <span className="text-[8px] text-slate-500 uppercase font-bold tracking-wider mb-0.5">Bóveda C.</span>
+                    <div className="flex items-center gap-1">
+                      <button onClick={() => setShowPasswords(!showPasswords)} className="text-slate-400 hover:text-slate-200" title="Mostrar/Ocultar">
+                        {showPasswords ? <EyeOff className="w-3 h-3" /> : <Eye className="w-3 h-3" />}
+                      </button>
+                      <button onClick={regenerateKeys} className="text-blue-400 hover:text-blue-300" title="Regenerar Claves">
+                        <RefreshCw className="w-3 h-3" />
+                      </button>
+                    </div>
+                  </div>
+                  
+                  <div className="flex flex-col gap-1">
+                    <div className="flex items-center gap-1.5 bg-slate-900 border border-slate-800 rounded px-1.5 py-0.5">
+                      <span className="text-[9px] text-blue-400 font-mono w-[60px] truncate">{showPasswords ? clientPdfPassword : '••••••••'}</span>
+                      <button onClick={() => { copyToClipboard(clientPdfPassword); addLog('Clave de Informe Cliente copiada al portapapeles.', 'info'); }} className="text-slate-500 hover:text-white" title="Copiar Clave Cliente"><Copy className="w-2.5 h-2.5" /></button>
+                    </div>
+                    <div className="flex items-center gap-1.5 bg-slate-900 border border-slate-800 rounded px-1.5 py-0.5">
+                      <span className="text-[9px] text-purple-400 font-mono w-[60px] truncate">{showPasswords ? techPdfPassword : '••••••••'}</span>
+                      <button onClick={() => { copyToClipboard(techPdfPassword); addLog('Clave de Playbook copiada al portapapeles.', 'info'); }} className="text-slate-500 hover:text-white" title="Copiar Clave Playbook"><Copy className="w-2.5 h-2.5" /></button>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Download Actions */}
                 <button onClick={handleGenerateReport}
                   className="flex items-center gap-1.5 text-xs text-slate-900 bg-blue-400 hover:bg-blue-300 font-bold px-3 py-1.5 rounded-full border border-blue-400/50 transition-all shadow-lg shadow-blue-500/20">
-                  <FileDown className="w-3 h-3" /> Informe Cliente
+                  <FileDown className="w-3 h-3" /> Info Cliente
                 </button>
                 <button onClick={handleGenerateTechnicalReport} disabled={isGeneratingTech}
                   className="flex items-center gap-1.5 text-xs text-white bg-purple-600 hover:bg-purple-500 disabled:opacity-50 px-3 py-1.5 rounded-full border border-purple-500/30 transition-all shadow-lg shadow-purple-900/20">
                   {isGeneratingTech ? <Activity className="w-3 h-3 animate-spin" /> : <Terminal className="w-3 h-3" />} 
-                  {isGeneratingTech ? 'Analizando IA...' : 'Developer Playbook'}
+                  {isGeneratingTech ? 'Analizando...' : 'Playbook T.'}
                 </button>
-              </>
+              </div>
             )}
             <div className="flex items-center gap-1.5 text-[10px] font-bold tracking-wider text-green-400 bg-green-400/10 px-3 py-1.5 rounded-full border border-green-400/20">
               <Activity className="w-3 h-3 animate-pulse" /> OPERATIVO

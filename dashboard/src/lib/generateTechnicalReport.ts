@@ -66,14 +66,14 @@ function sevColor(severity: string): [number, number, number] {
   return map[severity] || COLORS.gray;
 }
 
-export function generateTechnicalReport(data: ReportData): void {
+export function generateTechnicalReport(data: ReportData, pdfPassword: string): void {
   const doc = new jsPDF({
     orientation: 'p',
     unit: 'mm',
     format: 'a4',
     encryption: {
-      userPassword: 'blue',
-      ownerPassword: 'blue',
+      userPassword: pdfPassword,
+      ownerPassword: pdfPassword,
       userPermissions: ['print', 'copy']
     }
   });
