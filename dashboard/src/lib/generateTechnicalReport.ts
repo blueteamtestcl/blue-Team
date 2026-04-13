@@ -14,6 +14,9 @@ interface Alert {
   header?: string;
   recommendation?: string;
   aiRemediation?: string;
+  description: string;
+  affectedUrl?: string;
+  evidence?: string;
 }
 
 interface AuditLog {
